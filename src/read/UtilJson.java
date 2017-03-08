@@ -35,6 +35,10 @@ public class UtilJson {
 		}
 		str = "[" + str.substring(0, str.length() - 1) + "]";
 
+	return toJson(str);
+	}
+
+	public static JsonArray toJson(String str) {
 		InputStream stream = new ByteArrayInputStream(str.getBytes(StandardCharsets.UTF_8));
 		JsonReader reader = Json.createReader(stream);
 		JsonStructure jsonst = reader.read();

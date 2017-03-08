@@ -1,23 +1,26 @@
-import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonValue;
 
-import read.UtilJson;
-import util.math.MathJson;
+import adjuster.Appraiser;
+import util.constants.Constants;
 
 public class Main {
 	public static void main(String[] args) {
-		JsonArray a = UtilJson.getJsonArrayFromFile("/home/matheus/workspace/SensorError/data/dados.json");
-		System.out.println(MathJson.mean(a, "sensirion_temp"));
-		System.out.println(MathJson.min(a, "sensirion_temp"));
-		System.out.println(MathJson.max(a, "sensirion_temp"));
+		int a = 0, b = 0;
+		Appraiser app = new Appraiser();
+		app.refresh(Constants.data, "11", Constants.vars);
+		for (int i = 0; i <= 500; i += 5) {
+			app.coefficient = (double) i / 10.0;
+			for (JsonValue jsonValue : Constants.data) {
+				double t = Double.parseDouble(((JsonObject) jsonValue).getString("sensirion_temp"));
+				if (app.valid(t, "11", "sensirion_temp")) {
+					a++;
+				}
+				b++;
+			}
+			System.out.println(a);
+			System.out.println("cof:= " + app.coefficient + " p:= " + ((double) a / b));
+		}
 
-		System.out.println(a.size());
-		System.out.println(UtilJson.subsetByVar(a, "nodeID", "12").size());
-		System.out.println(UtilJson.subsetByVar(a, "nodeID", "11").size());
-
-		System.out.println(MathJson.mean(UtilJson.subsetByVar(a, "nodeID", "11"), "sensirion_temp"));
-		System.out.println(MathJson.mean(UtilJson.subsetByVar(a, "nodeID", "12"), "sensirion_temp"));
-
-		System.out.println(MathJson.standard(a, "sensirion_temp") * 3);
-		System.out.println(MathJson.standard(a, "sensirion_temp") * 2);
 	}
 }
