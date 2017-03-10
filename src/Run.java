@@ -23,5 +23,7 @@ public class Run {
         return app.valid(reading, node, var);
     }
 
-
+    public Appraiser getApp() {
+        return app;
+    }
 }
