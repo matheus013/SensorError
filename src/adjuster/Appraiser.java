@@ -1,21 +1,18 @@
 package adjuster;
 
+import read.UtilJson;
+import util.container.Pair;
+import util.log.Log;
+import util.math.MathJson;
+
+import javax.json.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
-
-import read.UtilJson;
-import util.math.MathJson;
-
 public class Appraiser {
-    protected HashMap<String, Double> coefficients;
+    protected HashMap<Pair<String, String>, Double> coefficients;
     private ArrayList<String> data;
-    private HashMap<String, Double> errors;
+    private HashMap<Pair<String, String>, Double> errors;
 
     public Appraiser() {
         data = new ArrayList<>();
@@ -47,7 +44,7 @@ public class Appraiser {
     }
 
     public boolean valid(double value, String node, String var) {
-        return valid(value, node, var, coefficients.get(node));
+        return valid(value, node, var, coefficients.get(Pair.create(node, var)));
     }
 
     protected boolean valid(double value, String node, String var, double coefficient) {
@@ -63,17 +60,18 @@ public class Appraiser {
             }
         }
         if (!(value >= (mean - coefficient * standard) && value <= (mean + coefficient * standard))) {
+            Log.write("Unexpected reading on node " + node + ". value:= " + ((double) Math.round(value * 100) / 100) + ", at variable " + var);
             if (!errors.containsKey(node)) {
-                errors.put(node, (value - mean));
+                errors.put(Pair.create(node, var), (value - mean));
             } else {
-                errors.replace(node, (value - mean));
+                errors.replace(Pair.create(node, var), (value - mean));
             }
         }
 
         return value >= (mean - coefficient * standard) && value <= (mean + coefficient * standard);
     }
 
-    public HashMap<String, Double> getErrors() {
+    public HashMap<Pair<String, String>, Double> getErrors() {
         return errors;
     }
 
