@@ -14,35 +14,34 @@ import javax.json.JsonStructure;
 import javax.json.JsonValue;
 
 public class UtilJson {
-	public static JsonArray getJsonArrayFromFile(String url) {
-		JsonReader reader = null;
-		try {
-			reader = Json.createReader(new FileReader(url));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		JsonStructure jsonst = reader.read();
-		JsonArray a = (JsonArray) jsonst;
-		return a;
-	}
+    public static JsonArray getJsonArrayFromFile(String url) {
+        JsonReader reader = null;
+        try {
+            reader = Json.createReader(new FileReader(url));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        JsonStructure jsonst = reader.read();
+        return (JsonArray) jsonst;
+    }
 
-	public static JsonArray subsetByVar(JsonArray array, String var, String ref) {
-		String str = "";
-		for (JsonValue jsonValue : array) {
-			if (((JsonObject) jsonValue).getString(var).equals(ref)) {
-				str += ((JsonObject) jsonValue).toString() + ",";
-			}
-		}
-		str = "[" + str.substring(0, str.length() - 1) + "]";
+    public static JsonArray subsetByVar(JsonArray array, String var, String ref) {
+        String str = "";
+        for (JsonValue jsonValue : array) {
+            if (((JsonObject) jsonValue).getString(var).equals(ref)) {
+                str += ((JsonObject) jsonValue).toString() + ",";
+            }
+        }
+        str = "[" + str.substring(0, str.length() - 1) + "]";
 
-	return toJson(str);
-	}
+        return toJson(str);
+    }
 
-	public static JsonArray toJson(String str) {
-		InputStream stream = new ByteArrayInputStream(str.getBytes(StandardCharsets.UTF_8));
-		JsonReader reader = Json.createReader(stream);
-		JsonStructure jsonst = reader.read();
-		JsonArray a = (JsonArray) jsonst;
-		return a;
-	}
+    public static JsonArray toJson(String str) {
+        InputStream stream = new ByteArrayInputStream(str.getBytes(StandardCharsets.UTF_8));
+        JsonReader reader = Json.createReader(stream);
+        JsonStructure jsonst = reader.read();
+        JsonArray a = (JsonArray) jsonst;
+        return a;
+    }
 }

@@ -1,5 +1,9 @@
 package util.log;
 
+import read.UtilJson;
+
+import javax.json.JsonArray;
+import javax.json.JsonObject;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,9 +21,29 @@ public class Log {
     }
 
     public static void write(String log) {
-        log += "\n";
-        String name = "log/"+ name() + ".log";
+        write(log + "\n", "log/" + name() + ".log", StandardOpenOption.APPEND);
+    }
+
+    public static void add(JsonObject object) {
+        String name = "data.json";
         File f = new File(name);
+        if (!f.exists()) {
+            write("[]", name, StandardOpenOption.WRITE);
+        }
+        JsonArray array = UtilJson.getJsonArrayFromFile(name);
+        String str = array.toString();
+        str = str.substring(0, str.length() - 1);
+        System.out.println(array.size());
+        if(!array.isEmpty()){
+            str += ",";
+        }
+        str += object.toString() + "]";
+        System.out.println(str);
+        write(str, name, StandardOpenOption.WRITE);
+    }
+
+    private static void write(String log, String target, StandardOpenOption tag) {
+        File f = new File(target);
         if (!f.exists()) {
             try {
                 f.createNewFile();
@@ -28,9 +52,10 @@ public class Log {
             }
         }
         try {
-            Files.write(Paths.get(name), log.getBytes(), StandardOpenOption.APPEND);
-        }catch (IOException e) {
-            //exception handling left as an exercise for the reader
+            Files.write(Paths.get(target), log.getBytes(), tag);
+        } catch (IOException e) {
+            // exception handling left as an exercise for the reader
         }
     }
+
 }
