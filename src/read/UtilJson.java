@@ -9,7 +9,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
 public class UtilJson {
     public static JsonArray getJsonArrayFromFile(String url) {
