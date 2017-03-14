@@ -23,6 +23,9 @@ public class Log {
     public static void write(String log) {
         write(log + "\n", "log/" + name() + ".log", StandardOpenOption.APPEND);
     }
+    public static void write(String log, String name) {
+        write(log + "\n", name, StandardOpenOption.APPEND);
+    }
 
     public static void add(JsonObject object) {
         String name = "data.json";

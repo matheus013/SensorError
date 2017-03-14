@@ -1,17 +1,15 @@
 package read;
 
+import javax.json.*;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonStructure;
-import javax.json.JsonValue;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 
 public class UtilJson {
     public static JsonArray getJsonArrayFromFile(String url) {
@@ -35,6 +33,29 @@ public class UtilJson {
         str = "[" + str.substring(0, str.length() - 1) + "]";
 
         return toJson(str);
+    }
+
+    public static ArrayList<JsonObject> toArrayList(JsonArray array) {
+        ArrayList<JsonObject> objects = new ArrayList<>();
+        for (JsonValue jsonValue : array) {
+            objects.add((JsonObject) jsonValue);
+        }
+        return objects;
+    }
+
+    public static ArrayList<JsonObject> sort(ArrayList<JsonObject> array) {
+        for (int i = array.size() - 1; i >= 1; i--) {
+            for (int j = 0; j < i; j++) {
+                if (toMs(array.get(j).getString("date")) < toMs(array.get(j + 1).getString("date"))) {
+                    Collections.swap(array, j, j + 1);
+                }
+            }
+        }
+        return array;
+    }
+
+    private static long toMs(String date) {
+        return Instant.parse(date).toEpochMilli();
     }
 
     public static JsonArray toJson(String str) {
