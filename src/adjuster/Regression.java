@@ -25,8 +25,9 @@ public class Regression {
     public void run(String baseFile) {
         JsonArray jsonArray = UtilJson.getJsonArrayFromFile(baseFile);
         for (String node : nodes) {
+            ArrayList<JsonObject> array = UtilJson.toArrayList(UtilJson.subsetByVar(jsonArray, "nodeID", node));
             for (String var : vars) {
-                ArrayList<JsonObject> array = UtilJson.toArrayList(UtilJson.subsetByVar(jsonArray, "nodeID", node));
+//                System.out.println(var);
                 if (!array.isEmpty()) {
                     KVector k = new KVector(array);
                     //Generate K straight to represent sample

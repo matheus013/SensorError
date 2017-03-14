@@ -1,7 +1,5 @@
 package adjuster.model;
 
-import util.math.MathJson;
-
 import java.awt.*;
 
 /**
@@ -44,5 +42,10 @@ public class Vector {
 
     public void setEnd(Point end) {
         this.end = end;
+    }
+
+    @Override
+    public String toString() {
+        return start.getX() + "," + start.getY() + "\n" + end.getX() + "," + end.getY();
     }
 }

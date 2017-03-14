@@ -19,14 +19,15 @@ public class KVector {
     ArrayList<JsonObject> population;
     ArrayList<Vector> vectors;
 
-    public KVector() {}
+    public KVector() {
+    }
 
     public KVector(ArrayList<JsonObject> population) {
-        this.population = UtilJson.sort(population);
+        this.population = population;
     }
 
     private KVector(ArrayList<JsonObject> population, int K, double T) {
-        this.population = UtilJson.sort(population);
+        this.population = population;
         this.K = K;
         this.T = T;
     }
@@ -34,11 +35,16 @@ public class KVector {
     public void train(String var) {
         double lastFitness = 0.0;
         int i;
-        for (i = K; lastFitness < 1.0 && i < population.size(); i++) {
+        for (i = K; lastFitness <= 1.0 && i < population.size(); i++) {
             Pair<Double, ArrayList<Vector>> pair = fitness(i, var);
+            System.out.println(pair.getFirst());
             double currentFitness = pair.getFirst();
-            if (lastFitness == currentFitness && lastFitness != 0) {
+            if (lastFitness == currentFitness && lastFitness != 0 || currentFitness == 1) {
                 vectors = (ArrayList<Vector>) pair.getSecond().clone();
+                System.out.println(var);
+                for (Vector vector : vectors) {
+                    System.out.println(vector);
+                }
                 break;
             }
             lastFitness = currentFitness;
@@ -47,6 +53,7 @@ public class KVector {
         confidence = lastFitness;
         System.out.println(K);
         System.out.println(confidence);
+
     }
 
     private Pair<Double, ArrayList<Vector>> fitness(int K, String var) {
@@ -63,5 +70,9 @@ public class KVector {
 
     public double test(Point p) {
         return vectors.get((int) p.getX() % K).dist(p);
+    }
+
+    public ArrayList<Vector> getVectors() {
+        return vectors;
     }
 }
