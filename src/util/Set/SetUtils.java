@@ -18,9 +18,9 @@ public class SetUtils {
             pieces.add(new Vector(new Point(i, (int) Double.parseDouble(objects.get(i).getString(var))),
                     new Point(i + v, (int) Double.parseDouble(objects.get(i + v).getString(var)))));
         }
-        if(K == 1){
+        if (K == 1) {
             pieces.add(new Vector(new Point(0, (int) Double.parseDouble(objects.get(0).getString(var))),
-                    new Point(v ,(int) Double.parseDouble(objects.get(v - 1).getString(var)) )));
+                    new Point(v, (int) Double.parseDouble(objects.get(v - 1).getString(var)))));
         }
         return pieces;
     }

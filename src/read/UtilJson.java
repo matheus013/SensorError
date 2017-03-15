@@ -43,13 +43,13 @@ public class UtilJson {
     }
 
     public static ArrayList<JsonObject> sort(ArrayList<JsonObject> array) {
-//        for (int i = array.size() - 1; i >= 1; i--) {
-//            for (int j = 0; j < i; j++) {
-//                if (toMs(array.get(j).getString("date")) < toMs(array.get(j + 1).getString("date"))) {
-//                    Collections.swap(array, j, j + 1);
-//                }
-//            }
-//        }
+        for (int i = array.size() - 1; i >= 1; i--) {
+            for (int j = 0; j < i; j++) {
+                if (toMs(array.get(j).getString("date")) < toMs(array.get(j + 1).getString("date"))) {
+                    Collections.swap(array, j, j + 1);
+                }
+            }
+        }
         return array;
     }
 

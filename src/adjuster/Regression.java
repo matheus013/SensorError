@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class Regression {
     final String[] vars = {"sensirion_temp", "sensirion_hum", "intersema_press", "infrared_light", "light"};
-    final String[] nodes = {"11", "12"};
+    final String[] nodes = {"12", "11"};
     int days = 0;
     //key format node var
     HashMap<Pair<String, String>, KVector> vectors;
@@ -27,7 +27,6 @@ public class Regression {
         for (String node : nodes) {
             ArrayList<JsonObject> array = UtilJson.toArrayList(UtilJson.subsetByVar(jsonArray, "nodeID", node));
             for (String var : vars) {
-//                System.out.println(var);
                 if (!array.isEmpty()) {
                     KVector k = new KVector(array);
                     //Generate K straight to represent sample

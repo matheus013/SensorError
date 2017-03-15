@@ -1,7 +1,6 @@
 package adjuster;
 
 import adjuster.model.Vector;
-import read.UtilJson;
 import util.Set.SetUtils;
 import util.container.Pair;
 
@@ -37,7 +36,7 @@ public class KVector {
         int i;
         for (i = K; lastFitness <= 1.0 && i < population.size(); i++) {
             Pair<Double, ArrayList<Vector>> pair = fitness(i, var);
-            System.out.println(pair.getFirst());
+//            System.out.println(pair.getFirst());
             double currentFitness = pair.getFirst();
             if (lastFitness == currentFitness && lastFitness != 0 || currentFitness == 1) {
                 vectors = (ArrayList<Vector>) pair.getSecond().clone();
@@ -51,8 +50,8 @@ public class KVector {
         }
         K = i;
         confidence = lastFitness;
-        System.out.println(K);
-        System.out.println(confidence);
+//        System.out.println(K);
+//        System.out.println(confidence);
 
     }
 
@@ -61,7 +60,7 @@ public class KVector {
         int count = 0;
         for (int i = 0; i < population.size(); i++) {
             int aux = (int) Double.parseDouble(population.get(i).getString(var));
-            if (vectors.get(i % K).dist(new Point(i, aux)) < 50.0) {
+            if (vectors.get(i % K).dist(new Point(i, aux)) < 2.0) {
                 count++;
             }
         }
